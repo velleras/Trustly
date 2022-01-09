@@ -1,0 +1,51 @@
+<html>
+
+<head>
+    <title>World Clock API Test</title>
+    <script type="text/javascript">
+        //read the timezone informed by user
+        var tzdata = prompt('Enter the TimeZone(ex. EST,UTC):');
+
+        //retrive the data from URL requested
+        vrequest = new XMLHttpRequest();
+        //call the function chante_status when the readystate changes
+        vrequest.onreadystatechange = check_status;
+        //init the current request
+        vrequest.open("GET", "https://worldclockapi.com/api/json/" + tzdata + "/now", true);
+        //send the request to server
+        vrequest.send(null);
+
+        function check_status() {
+            //if the operations is completed
+            if (vrequest.readyState == 4) {
+                //if operation is done
+                if (vrequest.status == 200) {
+                    //return the text received from server
+                    result = JSON.parse(vrequest.responseText);
+                    //get the specific result as id to print in div session
+                    document.getElementById('tz').innerHTML = result['currentDateTime'];
+                    document.getElementById('dOw').innerHTML = result['dayOfTheWeek'];
+                //processing a message error if the operation isn't completed
+                } else {
+                    alert("Error Processing the request:" + vrequest.statusText);
+                }
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+    <!-- Print the result-->
+    <script type="text/javascript">
+        document.write("Timezone: " + tzdata);
+    </script>
+    <div id="tz"> </div><br />
+    <script type="text/javascript">
+        document.write("Day of Week: ");
+    </script>
+    <div id="dOw"> </div><br />
+
+</body>
+
+</html>
